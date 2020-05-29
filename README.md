@@ -1,11 +1,13 @@
+# Cats vs Dogs
+
 <p align="center">
 <img src="catdog.gif" width="300" ></a>
 </p>
 
-# Cats vs Dogs
-
 ### Motivation
-How to train a deep learning model when I don't have hardware power to train the model, and even store all the tons of data that the model requires? Well... I go to the cloud.
+How to train a deep learning model when I don't have hardware power to train the model, and even store all the tons of data that the model requires? 
+
+Well... I go to the cloud.
 
 ### Objective
 This repository examplifies how to traing a job on **GCP** when the input data is too big to be able to store it locally; in other words, the input data is also **in the cloud**, more specifically in a GCS bucket.
