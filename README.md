@@ -1,5 +1,9 @@
 # Cats vs Dogs
 
+<p align="center">
+<img src="catdog.gif" width="400" ></a>
+</p>
+
 ### Motivation
 How to train a deep learning model when I don't have hardware power to train the model, and even store all the tons of data that the model requires? Well... I go to the cloud.
 
