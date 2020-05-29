@@ -3,12 +3,6 @@ echo "   Train model on Cloud ML.   "
 echo "=============================="
 echo " "
 
-# if [ "$#" -ne 1 ]; then
-#     echo "Usage:    ./train_cloudml.sh destination-bucket-name"
-#     echo "   eg:    .train_cloudml.sh qwiklabs-bucket-01"
-#     exit -1
-# fi
-
 BUCKET="qwiklabs-bucket-01"
 PROJECT_ID=$(gcloud config get-value project)
 REGION=us-central1

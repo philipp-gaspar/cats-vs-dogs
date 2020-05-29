@@ -7,7 +7,7 @@ import json
 import os
 
 import tensorflow as tf
-import trainer.model as model
+import trainer.deep_models as deep_models
 
 if __name__ == '__main__':
     print('Using Tensorflow version: %s' % str(tf.version.VERSION))
@@ -15,29 +15,29 @@ if __name__ == '__main__':
 
     parser.add_argument(
         '--bucket',
-        help='Training data will be in gs://BUCKET/cats_vs_dogs/data/train/',
-        required=True)
+        action='store',
+        required=True,
+        help='Training data will be in gs://BUCKET/cats_vs_dogs/data/train/')
+
     parser.add_argument(
         '--job-dir',
-        help='Requiered by gcloud.',
-        default='./junk')
+        action='store',
+        default='./junk',
+        help='Requiered by gcloud.')
+
     parser.add_argument(
-        '--train_batch_size',
-        help='Number of examples to compute gradient on',
+        '--batch_size',
+        action='store',
         type=int,
-        default=64)
+        default=64,
+        help='Number of examples to compute gradient on')
 
     # parse args
     args = parser.parse_args()
-    arguments = args.__dict__
-
-    # set appropriate output directory
-    BUCKET = arguments['bucket']
-    output_dir = 'gs://%s/cats_vs_dogs/trained_models' % (BUCKET)
-    print('Writing trained model to: %s\n' % output_dir)
-    arguments['output_dir'] = output_dir
+    args.output_dir = 'gs://%s/cats_vs_dogs/trained_models' % (args.bucket)
 
     # run
     logging.basicConfig(level=logging.INFO)
-    model.setup(arguments)
-    model.train_and_evaluate()
+    deep_classifier = deep_models.DeepClassifier(args)
+
+    deep_classifier.run_local()
