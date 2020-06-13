@@ -1,14 +1,12 @@
 """Example implementation of code to run on the Cloud ML service.
 """
-
 import argparse
-import logging
-import json
-import os
-
 import tensorflow as tf
 import trainer.deep_models as deep_models
 
+# ===================== #
+#    PARSE ARGUMENTS    #
+# ===================== #
 if __name__ == '__main__':
     print('Using Tensorflow version: %s' % str(tf.version.VERSION))
     parser = argparse.ArgumentParser()
@@ -29,7 +27,7 @@ if __name__ == '__main__':
         '--epochs',
         aciton='store',
         type=int,
-        default=30,
+        default=20,
         help='Number of training epochs.')
 
     parser.add_argument(
@@ -43,8 +41,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     args.output_dir = 'gs://%s/cats_vs_dogs/trained_models' % (args.bucket)
 
-    # run
-    logging.basicConfig(level=logging.INFO)
+    # ======================= #
+    #    RUN CONVNET MODEL    #
+    # ======================= #
     deep_classifier = deep_models.DeepClassifier(args)
-
-    deep_classifier.run_on_cloud()
+    deep_classifier.train_on_cloud()
