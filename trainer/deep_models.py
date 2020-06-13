@@ -110,5 +110,5 @@ class DeepClassifier(object):
         #   Export trained model.
         export_dir = os.path.join(
             self.output_dir,
-            'deep_classifier_{}'.format(time.strftime('%Y.%m.%d-%H:%M:%Sh')))
+            'deep_classifier_{}'.format(time.strftime('%Y.%m.%d-%H:%M:%S')))
         tf.saved_model.save(model, export_dir)
