@@ -1,9 +1,16 @@
+#!/bin/bash
 echo "=============================="
 echo "   Train model on Cloud ML.   "
 echo "=============================="
 echo " "
 
-BUCKET="qwiklabs-bucket-01"
+if [ "$1" == "" ]; then
+	echo "Please add the Bucket name as an argument."
+  echo "Example: ./train_cloud.sh <BUCKET_NAME>"
+  echo ""
+fi
+
+BUCKET=$1
 PROJECT_ID=$(gcloud config get-value project)
 REGION=us-central1
 JOB_NAME=cats_vs_dogs_$(date +%Y%m%d_%H%M%S)
