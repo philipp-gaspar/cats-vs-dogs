@@ -3,7 +3,6 @@ import time
 import tensorflow as tf
 
 from tensorflow.keras import models, layers, optimizers
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 class DeepClassifier(object):
     def __init__(self, args):
@@ -56,7 +55,7 @@ class DeepClassifier(object):
         label = tf.strings.split(file_path, os.path.sep)[-2]
         return label == class_names
 
-    def _decode_images(self, img, width=150, height=150):
+    def _decode_image(self, img, width=150, height=150):
         tensor = tf.image.decode_jpeg(img, channels=3)
         tensor = tf.image.convert_image_dtype(tensor, tf.float32)
         tensor = tf.image.resize(tensor, [width, height])
@@ -66,7 +65,7 @@ class DeepClassifier(object):
     def _process_path(self, file_path):
         label = self._get_label(file_path)
         image_raw = tf.io.read_file(file_path)
-        tensor = self._decode_images(image_raw)
+        tensor = self._decode_image(image_raw)
 
         return tensor, label
 
@@ -78,7 +77,7 @@ class DeepClassifier(object):
 
         return image, label
 
-    def run_on_cloud(self):
+    def train_on_cloud(self):
         dataset = self._setup_dataset()
 
         #   Set 'num_parallel_calls' so multiple images are loaded/processed
@@ -111,5 +110,5 @@ class DeepClassifier(object):
         #   Export trained model.
         export_dir = os.path.join(
             self.output_dir,
-            'deep_classifier_{}'.format(time.strftime('%Y%m%d-%H%M%S')))
+            'deep_classifier_{}'.format(time.strftime('%Y.%m.%d-%H:%M:%Sh')))
         tf.saved_model.save(model, export_dir)
