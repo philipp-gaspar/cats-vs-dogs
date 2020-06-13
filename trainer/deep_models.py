@@ -1,8 +1,6 @@
-import logging
 import os
 import time
 import tensorflow as tf
-import numpy as np
 
 from tensorflow.keras import models, layers, optimizers
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -11,6 +9,7 @@ class DeepClassifier(object):
     def __init__(self, args):
         self.bucket = args.bucket
         self.job_dir = args.job_dir
+        self.epochs = args.epochs
         self.batch_size = args.batch_size
         self.output_dir = args.output_dir
 
@@ -36,10 +35,6 @@ class DeepClassifier(object):
             optimizer=optimizers.RMSprop(lr=1e-4), metrics=['acc'])
 
         return model
-
-    def _setup_local_folders(self):
-        self.train_dir = os.path.join(os.getcwd(), 'data', 'train')
-        self.valid_dir = os.path.join(os.getcwd(), 'data', 'validation')
 
     def _setup_cloud_bucket(self):
         data_bucket = 'gs://%s/cats_vs_dogs/' % self.bucket
@@ -83,7 +78,7 @@ class DeepClassifier(object):
 
         return image, label
 
-    def run_local(self):
+    def run_on_cloud(self):
         dataset = self._setup_dataset()
 
         #   Set 'num_parallel_calls' so multiple images are loaded/processed
@@ -110,7 +105,7 @@ class DeepClassifier(object):
         model = self._build_model()
         history = model.fit(
             train_batches,
-            epochs=5,
+            epochs=self.epochs,
             validation_data=valid_batches)
 
         #   Export trained model.

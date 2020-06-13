@@ -26,6 +26,13 @@ if __name__ == '__main__':
         help='Requiered by gcloud.')
 
     parser.add_argument(
+        '--epochs',
+        aciton='store',
+        type=int,
+        default=30,
+        help='Number of training epochs.')
+
+    parser.add_argument(
         '--batch_size',
         action='store',
         type=int,
@@ -40,4 +47,4 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     deep_classifier = deep_models.DeepClassifier(args)
 
-    deep_classifier.run_local()
+    deep_classifier.run_on_cloud()
